@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: convert-currency-ms
+    version: v1
+  name: convert-currency-ms
+spec:
+  selector:
+    matchLabels:
+      app: convert-currency-ms
+      version: v1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: convert-currency-ms
+        version: v1
+    spec:
+      containers:
+      - image: 81052/currency-docker:covert-currency
+        name: convert-currency-ms
+        env:
+       
+        - name: SPRING.ZIPKIN.BASEURL
+          value: http://zipkin:9411/
+        ports:
+        - containerPort: 8082

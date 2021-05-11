@@ -1,0 +1,58 @@
+server:
+  port: 0
+
+logging:
+  level:
+    root: INFO
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"
+
+
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      conversionfactor: 
+        minimum-number-of-calls: 2
+        max-wait-duration-in-half-open-state: 2s
+        allow-health-indicator-to-fail: true
+        failure-rate-threshold: 50
+        permitted-number-of-calls-in-half-open-state: 5
+        wait-duration-in-open-state: 5s
+        register-health-indicator: true
+
+
+  retry:
+    instances:
+      convrt_Currency-ms: 
+        max-attempts: 5
+        wait-duration: 2s
+        enable-exponential-backoff: true
+        
+
+spring:
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+    sender:
+      type: web
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1
+    enabled: true
+    
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761       

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: convert-currency-ms
+  labels:
+    app: convert-currency-ms
+    version: v1
+spec:
+  ports:
+  - port: 8082
+    targetPort: 8082
+    protocol: TCP
+  selector:
+    app: convert-currency-ms
+    version: v1
+  type: NodePort
